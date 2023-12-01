@@ -1,23 +1,24 @@
 package com.zybooks.mediaplayer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.concurrent.TimeUnit;
+import android.widget.ProgressBar;
 
 
 public class MainActivity extends Activity {
-    private Button b1,b2,b3,b4;
-    private ImageView iv;
+    private Button btnPlay, btnPause, btnRewind, btnForward, btnDownload;
     private MediaPlayer mediaPlayer;
+    private ProgressBar spinner;
 
     private double startTime = 0;
     private double finalTime = 0;
@@ -28,33 +29,39 @@ public class MainActivity extends Activity {
     private SeekBar seekbar;
     private TextView tx1,tx2,tx3;
 
+    Handler handler;
+
     public static int oneTimeOnly = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        b1 = (Button) findViewById(R.id.button);
-        b2 = (Button) findViewById(R.id.button2);
-        b3 = (Button)findViewById(R.id.button3);
-        b4 = (Button)findViewById(R.id.button4);
-        iv = (ImageView)findViewById(R.id.imageView);
+        btnPlay = (Button) findViewById(R.id.btnPlay);
+        btnPause = (Button) findViewById(R.id.btnPause);
+        btnForward = (Button) findViewById(R.id.btnForward);
+        btnRewind = (Button) findViewById(R.id.btnRewind);
+        btnDownload = (Button) findViewById(R.id.btnDownload);
 
-        tx1 = (TextView)findViewById(R.id.textView2);
-        tx2 = (TextView)findViewById(R.id.textView3);
-        tx3 = (TextView)findViewById(R.id.textView4);
-        tx3.setText("Love.mp3");
+        tx1 = (TextView) findViewById(R.id.textView2);
+        tx2 = (TextView) findViewById(R.id.textView3);
+        tx3 = (TextView) findViewById(R.id.textView4);
+        tx3.setText("Promise.mp3");
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.song);
+//        // This is the spinner progressbar
+        spinner = (ProgressBar)findViewById(R.id.spinner);
+        spinner.setVisibility(View.GONE);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.promise);
         seekbar = (SeekBar)findViewById(R.id.seekBar);
         seekbar.setClickable(false);
-        b2.setEnabled(false);
+        btnPause.setEnabled(false);
 
-        b3.setOnClickListener(new View.OnClickListener() {
+        btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Playing sound",Toast.LENGTH_SHORT).show();
-                        mediaPlayer.start();
+                mediaPlayer.start();
 
                 finalTime = mediaPlayer.getDuration();
                 startTime = mediaPlayer.getCurrentPosition();
@@ -78,24 +85,26 @@ public class MainActivity extends Activity {
                                         startTime)))
                 );
 
-                seekbar.setProgress((int)startTime);
+                // TEST
+                // Remove previous callbacks to avoid multiple callbacks running concurrently
+                myHandler.removeCallbacks(UpdateSongTime);
                 myHandler.postDelayed(UpdateSongTime,100);
-                b2.setEnabled(true);
-                b3.setEnabled(false);
+                btnPause.setEnabled(true);
+                btnPlay.setEnabled(false);
             }
         });
 
-        b2.setOnClickListener(new View.OnClickListener() {
+        btnPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Pausing sound",Toast.LENGTH_SHORT).show();
-                        mediaPlayer.pause();
-                b2.setEnabled(false);
-                b3.setEnabled(true);
+                mediaPlayer.pause();
+                btnPause.setEnabled(false);
+                btnPlay.setEnabled(true);
             }
         });
 
-        b1.setOnClickListener(new View.OnClickListener() {
+        btnForward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int temp = (int)startTime;
@@ -110,7 +119,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        b4.setOnClickListener(new View.OnClickListener() {
+        btnRewind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int temp = (int)startTime;
@@ -122,6 +131,27 @@ public class MainActivity extends Activity {
                 }else{
                     Toast.makeText(getApplicationContext(),"Cannot jump backward 5 seconds",Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        // This button will open the complete screen
+        // indicating that the download is complete
+        btnDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Spinner will show when the play button is clicked
+                spinner.setVisibility(View.VISIBLE);
+                // This handler will delay the opening of CompleteScreen
+                // as a loading effect
+                handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(MainActivity.this, CompleteScreen.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }, 3000);
             }
         });
     }

@@ -30,47 +30,46 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textview"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/corgi"/>
+        android:layout_marginTop="-23dp"
+        android:src="@drawable/zeus" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnForward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginBottom="-1dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginBottom="100dp"
         android:text="@string/forward" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnPause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pause"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/button"
-        android:layout_toEndOf="@+id/button" />
+        android:layout_marginBottom="100dp"
+        android:layout_toEndOf="@+id/btnForward"
+        android:layout_toRightOf="@+id/btnForward"
+        android:text="@string/pause" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/back"
-        android:layout_alignTop="@+id/button2"
-        android:layout_toRightOf="@+id/button2"
-        android:layout_toEndOf="@+id/button2" />
+        android:text="@string/play"
+        android:layout_alignTop="@+id/btnPause"
+        android:layout_toRightOf="@+id/btnPause"
+        android:layout_toEndOf="@+id/btnPause" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btnRewind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/rewind"
-        android:layout_alignTop="@+id/button3"
-        android:layout_toRightOf="@+id/button3"
-        android:layout_toEndOf="@+id/button3" />
+        android:layout_alignTop="@+id/btnPlay"
+        android:layout_toRightOf="@+id/btnPlay"
+        android:layout_toEndOf="@+id/btnPlay" />
 
     <SeekBar
         android:layout_width="wrap_content"
@@ -80,17 +79,16 @@
         android:layout_alignStart="@+id/textview"
         android:layout_alignRight="@+id/textview"
         android:layout_alignEnd="@+id/textview"
-        android:layout_above="@+id/button" />
+        android:layout_above="@+id/btnForward" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="0 min"
         android:layout_above="@+id/seekBar"
-        android:layout_toLeftOf="@+id/textView"
-        android:layout_toStartOf="@+id/textView" />
+        android:layout_alignLeft="@+id/btnForward"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
         android:id="@+id/textView3"
@@ -99,8 +97,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="1 min"
         android:layout_above="@+id/seekBar"
-        android:layout_alignRight="@+id/button4"
-        android:layout_alignEnd="@+id/button4" />
+        android:layout_alignRight="@+id/btnRewind"/>
 
     <TextView
         android:id="@+id/textView4"
@@ -111,5 +108,23 @@
         android:layout_alignBaseline="@+id/textView2"
         android:layout_alignBottom="@+id/textView2"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btnDownload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dowload song"
+        android:textSize="15sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
+
+    <ProgressBar
+        android:id="@+id/spinner"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@id/btnDownload"
+        android:layout_centerHorizontal="true"
+        android:progressDrawable="@drawable/circular_progress_bar" />
 
 </RelativeLayout>
